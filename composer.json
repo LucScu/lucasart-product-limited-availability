@@ -1,9 +1,8 @@
 {
-    "name": "lucasart/product-limited-availability",
+    "name": "lucasart/stock-status-label",
     "description": "Add label to product page that alert customer when the product is limited availability.",
     "keywords": ["magento2"],
     "type": "magento2-module",
-    "version": "1.0.0",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
@@ -15,15 +14,15 @@
         "map": [
             [
                 "*",
-                "LucasArt/ProductLimitedAvailability"
+                "LucasArt/StockStatusLabel"
             ]
         ]
     },
     "authors": [
         {
             "name": "Luca Sculco",
-            "homepage": "http://www.lucasart.it",
-            "role": "Developer"
+            "email": "sculco.luca@gmail.com",
+            "homepage": "http://www.lucasart.it"
         }
     ]
 }
