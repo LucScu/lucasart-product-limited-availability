@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <cataloginventory>
+            <stock_status_label>
+                <enable_critical_label>0</enable_critical_label>
+                <critical_label_qty>1</critical_label_qty>
+                <critical_label_text>Last item available</critical_label_text>
+                <critical_label_color>ff0000</critical_label_color>
+                <enable_warning_label>0</enable_warning_label>
+                <warning_label_qty>5</warning_label_qty>
+                <warning_label_text>Limited availability</warning_label_text>
+                <warning_label_color>ffa500</warning_label_color>
+                <enable_critical_label>0</enable_critical_label>
+                <secure_label_qty>1000</secure_label_qty>
+                <secure_label_text>Available</secure_label_text>
+                <secure_label_color>00ff00</secure_label_color>
+            </stock_status_label>
+        </cataloginventory>
+    </default>
+</config>

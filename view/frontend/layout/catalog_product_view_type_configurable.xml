@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <!-- block for configurable product -->
+        <referenceBlock name="product.info.addtocart.additional" template="LucasArt_StockStatusLabel::product/view/addtocart.phtml"/>
+
+        <referenceBlock name="product.info.addtocart.additional">
+            <block class="LucasArt\StockStatusLabel\Block\Label" name="availability.label" template="LucasArt_StockStatusLabel::product/view/label.phtml" after="-"/>
+        </referenceBlock>
+
+    </body>
+</page>
