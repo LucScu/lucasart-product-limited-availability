@@ -24,11 +24,11 @@
                    value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
                    title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
                    data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"/>
-              
+
                <?php
 
                // add label
-               echo $block->getChildHtml('availability.label')
+               echo $block->getChildHtml('availability.label');
 
                ?>
 

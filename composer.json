@@ -1,6 +1,6 @@
 {
     "name": "lucasart/stock-status-label",
-    "description": "Add label to product page that alert customer when the product is limited availability.",
+    "description": "Magento2 module to add stock status availability info label to product page",
     "keywords": ["magento2"],
     "type": "magento2-module",
     "license": [

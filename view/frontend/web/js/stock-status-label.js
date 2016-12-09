@@ -4,6 +4,7 @@ define([
 ], function($) {
 
     var selectedOptions = {};
+    var swatchChild = {};
 
     var _getSelectedChild = function() {
 
@@ -54,12 +55,13 @@ define([
 
         console.log(options);
 
-        swatchChild = options.swatchOptions.index;
+
 
         if ( options.productData.type == 'configurable' ) {
 
             // console.log('configurable');
 
+            swatchChild = options.swatchOptions.index;
             var childs = options.productData.childs;
 
             $('.swatch-option').on('click', function() {
@@ -74,8 +76,9 @@ define([
                 if ( selectedChild ) {
 
                     var stock_status = childs[selectedChild];
-                    $('.stock_status_label').addClass(stock_status);
-                    $('.stock_status_label').html(options.labels[stock_status]);
+                    $('#stock_status_label').removeClass();
+                    $('#stock_status_label').addClass(stock_status);
+                    $('#stock_status_label').html(options.labels[stock_status]);
 
                 }
 
@@ -83,12 +86,12 @@ define([
 
         } else if ( options.productData.type == 'simple' ) {
 
-            console.log('simple');
+            // console.log('simple');
 
             var sku = options.productData.sku;
             var stock_status = options.productData.stock_status;
-            $('.stock_status_label').addClass(stock_status);
-            $('.stock_status_label').html(labels[stock_status]);
+            $('#stock_status_label').addClass(stock_status);
+            $('#stock_status_label').html(options.labels[stock_status]);
 
         }
 
