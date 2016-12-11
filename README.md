@@ -1,5 +1,5 @@
 # Magento2 module
-Stock status label module allow to show a custom availability info label to product page.
+Stock status label module allow you to show a custom availability info label in product page.
 
 ## Installation
 Run command below from your magento2 root.
@@ -9,7 +9,7 @@ bin/magento module:enable LucasArt_StockStatusLabel
 bin/magento setup:upgrade
 ```
 ## Usage
-Enable and configure the module in admin
+Enable and configure the module in admin.
 ```
 Stores -> Configuration -> Catalog -> Inventory -> Stock Status Label
 ```
