@@ -5,7 +5,6 @@ Stock status label module allow you to show a custom availability info label in 
 Run command below from your magento2 root.
 ```
 composer require lucasart/stock-status-label:~1.1.0
-bin/magento module:enable LucasArt_StockStatusLabel
 bin/magento setup:upgrade
 ```
 ## Usage
