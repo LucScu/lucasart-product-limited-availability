@@ -1,15 +1,15 @@
-<?php if ( $block->isStockStatusLabelEnabled() ) { ?>
+<?php if ($block->isStockStatusLabelEnabled()) { ?>
 
-    <?php echo $block->getStyle(); ?>
+    <?php /* @noEscape */ echo $block->getStyle(); ?>
     <label id="stock_status_label"></label>
 
     <script type="text/x-magento-init">
     {
         "*": {
             "LucasArt_StockStatusLabel/js/stock-status-label": {
-                "swatchOptions": <?php echo $block->getSwatchOptions() ?>,
-                "productData": <?php echo $block->getProductData() ?>,
-                "labels": <?php echo $block->getLabelTexts() ?>
+                "swatchOptions": <?php /* @noEscape */ echo $block->getSwatchOptions() ?>,
+                "productData": <?php /* @noEscape */ echo $block->getProductData() ?>,
+                "labels": <?php /* @noEscape */ echo $block->getLabelTexts() ?>
             }
         }
     }

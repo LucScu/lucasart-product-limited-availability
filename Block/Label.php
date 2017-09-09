@@ -2,7 +2,8 @@
 
 namespace LucasArt\StockStatusLabel\Block;
 
-class Label extends \Magento\Framework\View\Element\Template {
+class Label extends \Magento\Framework\View\Element\Template
+{
 
     const XML_PATH_ENABLE_STOCK_STATUS_LABEL = 'cataloginventory/stock_status_label/enable_stock_status_label';
 
@@ -22,80 +23,58 @@ class Label extends \Magento\Framework\View\Element\Template {
     const XML_PATH_WARNING_LABEL_COLOR = 'cataloginventory/stock_status_label/warning_label_color';
     const XML_PATH_SECURE_LABEL_COLOR = 'cataloginventory/stock_status_label/secure_label_color';
 
-
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     private $scopeConfig;
 
-
     /**
      * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockRegistry;
-
-
+    private $stockRegistry;
 
     /**
      *
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CatalogInventory\Model\StockRegistry $stockRegistry
     ) {
-        $this->scopeConfig = $scopeConfig;
+        $this->scopeConfig = $context->getScopeConfig();
         $this->stockRegistry = $stockRegistry;
         parent::__construct($context);
     }
 
+    /**
+     *
+     */
+    public function isStockStatusLabelEnabled()
+    {
 
+        return $this->scopeConfig->getValue(self::XML_PATH_ENABLE_STOCK_STATUS_LABEL);
+    }
 
     /**
      *
      */
-     public function isStockStatusLabelEnabled() {
-
-         return $this->scopeConfig->getValue(self::XML_PATH_ENABLE_STOCK_STATUS_LABEL);
-
-     }
-
-
-
-    /**
-     *
-    */
-    public function getProductData() {
-
+    public function getProductData()
+    {
 
         // simple
-        if ( $this->getLayout()->hasElement('product.info.simple') ) {
+        if ($this->getLayout()->hasElement('product.info.simple')) {
 
             /** @var \Magento\Catalog\Block\Product\View\Type\Simple $block */
             $block = $this->getLayout()->getBlock('product.info.simple');
             $product = $block->getProduct();
             $stockItem = $this->stockRegistry->getStockItem($product->getId());
 
-
             $this->productData['type'] = 'simple';
             $this->productData['sku'] = $product->getSku();
             $this->productData['stock_status'] = $this->getStockStatusLabel($stockItem->getQty());
-
-
-            // var_dump($product->getId());
-            // var_dump($stockItem->getQty());
-            // die;
-
-            // echo $this->scopeConfig->getValue(self::XML_PATH_ENABLE_CRITICAL_LABEL);
-            // echo '<br>';
-            // echo $product->getId() . ' - ' . $stockItem->getQty();
-
         }
 
-
         // configurable
-        if ( $this->getLayout()->hasElement('product.info.configurable') ) {
-
+        if ($this->getLayout()->hasElement('product.info.configurable')) {
             $this->productData['type'] = 'configurable';
 
             /** @var \Magento\ConfigurableProduct\Block\Product\View\Type\Configurable $block */
@@ -104,119 +83,87 @@ class Label extends \Magento\Framework\View\Element\Template {
 
             // retrieve childs
             $childIds = $product->getTypeInstance()->getUsedProductIds($product);
-            foreach ($childIds as $childId){
-
+            foreach ($childIds as $childId) {
                 $stockItem = $this->stockRegistry->getStockItem($childId);
                 $this->productData['childs'][$childId] = $this->getStockStatusLabel($stockItem->getQty());
-
             }
-
-            // echo '<pre>';
-            // var_dump($product->getId());
-            // var_dump($stockItem->getQty());
-            // var_dump($block->getJsonConfig());
-            // die;
-
         }
 
         return json_encode($this->productData);
-
     }
-
-
 
     /**
      *
      */
-    public function isConfigurableProduct() {
+    public function isConfigurableProduct()
+    {
 
         return $this->getLayout()->hasElement('product.info.configurable') ? true : false;
-
     }
-
-
 
     /**
      *
      */
-    public function getSwatchOptions() {
+    public function getSwatchOptions()
+    {
 
-        if ( !$this->isConfigurableProduct() ) {
-
+        if (!$this->isConfigurableProduct()) {
             // if simple return an empty json object
             return "{}";
-
         }
 
         /** @var \Magento\Swatches\Block\Product\Renderer\Configurable $block */
         $block = $this->getLayout()->getBlock('product.info.options.swatches');
         $swatchOptions = $block->getJsonConfig();
         return $swatchOptions;
-
     }
-
-
 
     /**
      *
      */
-    public function getStockStatusLabel($qty) {
+    public function getStockStatusLabel($qty)
+    {
 
         // STOCK STATUS CRITICAL
-        if (
-            $this->scopeConfig->getValue(self::XML_PATH_ENABLE_CRITICAL_LABEL)
+        if ($this->scopeConfig->getValue(self::XML_PATH_ENABLE_CRITICAL_LABEL)
             && $qty <= $this->scopeConfig->getValue(self::XML_PATH_CRITICAL_LABEL_QTY)
         ) {
-
             return 'critical';
-
         }
-
 
         // STOCK STATUS WARNING
-        if (
-            $this->scopeConfig->getValue(self::XML_PATH_ENABLE_WARNING_LABEL)
+        if ($this->scopeConfig->getValue(self::XML_PATH_ENABLE_WARNING_LABEL)
             && $qty <= $this->scopeConfig->getValue(self::XML_PATH_WARNING_LABEL_QTY)
         ) {
-
             return 'warning';
-
         }
-
 
         // STOCK STATUS SECURE
-        if (
-            $this->scopeConfig->getValue(self::XML_PATH_ENABLE_SECURE_LABEL)
+        if ($this->scopeConfig->getValue(self::XML_PATH_ENABLE_SECURE_LABEL)
             && $qty <= $this->scopeConfig->getValue(self::XML_PATH_SECURE_LABEL_QTY)
         ) {
-
             return 'secure';
-
         }
-
     }
-
-
 
     /**
      *
      */
-    public function getLabelTexts() {
+    public function getLabelTexts()
+    {
 
         return json_encode([
             'critical' => $this->scopeConfig->getValue(self::XML_PATH_CRITICAL_LABEL_TEXT),
             'warning'  => $this->scopeConfig->getValue(self::XML_PATH_WARNING_LABEL_TEXT),
             'secure'   => $this->scopeConfig->getValue(self::XML_PATH_SECURE_LABEL_TEXT)
         ]);
-
     }
-
-
 
     /**
      *
      */
-    public function getStyle() {
+    public function getStyle()
+    {
 
         $color_critical = $this->scopeConfig->getValue(self::XML_PATH_CRITICAL_LABEL_COLOR);
         $color_warning = $this->scopeConfig->getValue(self::XML_PATH_WARNING_LABEL_COLOR);
@@ -229,7 +176,5 @@ class Label extends \Magento\Framework\View\Element\Template {
         #stock_status_label.secure { color: #' . $color_secure . '; }
 
         </style>';
-
     }
-
 }
