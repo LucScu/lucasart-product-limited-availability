@@ -5,9 +5,12 @@
     "type": "magento2-module",
     "license": "OSL-3.0",
     "version": "1.1.4",
+    "require": {
+        "magento/module-swatches": "^100.2.3"
+    },
     "autoload": {
         "psr-4": {
-            "LucasArt\\StockStatusLabel\\": ""
+            "Lucasart\\StockStatusLabel\\": ""
         },
         "files": [
             "registration.php"

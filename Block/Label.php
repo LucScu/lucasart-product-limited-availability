@@ -104,7 +104,7 @@ class Label extends \Magento\Framework\View\Element\Template
     /**
      *
      */
-    public function getSwatchOptions()
+    public function getProductOptions()
     {
 
         if (!$this->isConfigurableProduct()) {
@@ -114,8 +114,8 @@ class Label extends \Magento\Framework\View\Element\Template
 
         /** @var \Magento\Swatches\Block\Product\Renderer\Configurable $block */
         $block = $this->getLayout()->getBlock('product.info.options.swatches');
-        $swatchOptions = $block->getJsonConfig();
-        return $swatchOptions;
+        $productOptions = $block->getJsonConfig();
+        return $productOptions;
     }
 
     /**

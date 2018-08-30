@@ -1,13 +1,13 @@
-<?php if ($block->isStockStatusLabelEnabled()) { ?>
+<?php if ($block->isStockStatusLabelEnabled()) : ?>
 
     <?php /* @noEscape */ echo $block->getStyle(); ?>
     <label id="stock_status_label"></label>
 
     <script type="text/x-magento-init">
     {
-        "*": {
-            "LucasArt_StockStatusLabel/js/stock-status-label": {
-                "swatchOptions": <?php /* @noEscape */ echo $block->getSwatchOptions() ?>,
+        "#stock_status_label": {
+            "Lucasart_StockStatusLabel/js/stock-status-label": {
+                "productOptions": <?php /* @noEscape */ echo $block->getProductOptions() ?>,
                 "productData": <?php /* @noEscape */ echo $block->getProductData() ?>,
                 "labels": <?php /* @noEscape */ echo $block->getLabelTexts() ?>
             }
@@ -15,4 +15,4 @@
     }
     </script>
 
-<?php } ?>
+<?php endif; ?>

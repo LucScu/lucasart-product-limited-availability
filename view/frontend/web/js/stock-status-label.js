@@ -1,82 +1,122 @@
 define([
-    'jquery',
-    'Magento_Swatches/js/swatch-renderer'
+    'jquery'
 ], function ($) {
 
     var selectedOptions = {};
-    var swatchChild = {};
+    var childsConfig = {};
 
+
+    /**
+     * Ritorno l'id del prodotto semplice, cosi da poter stampare
+     * la stock status label corrispondente.
+     * Se non sono state valorizzate tutte le opzioni non stampo nulla.
+     */
     var _getSelectedChild = function () {
 
-        // attributes
         var allOptionsSelected = true;
 
-        $('div.swatch-attribute').each(function () {
+        // visualizzo l'etichetta solo se tutte le opzioni
+        // sono state valorizzate
+        $('.super-attribute-select').each(function () {
 
-            if (Object.keys(selectedOptions).indexOf($(this).attr('attribute-id')) == '-1' ) {
+            var str = $(this).attr("name");
+            var re = /super_attribute\[(\d+)\]/g;
+            var matches = re.exec(str);
+            var attributeId = matches[1];
+
+            if (Object.keys(selectedOptions).indexOf(attributeId) == '-1' ) {
                 allOptionsSelected = false;
             }
 
         });
 
 
-        //
-        if (!allOptionsSelected ) {
+        if (!allOptionsSelected) {
+
             return false;
+
         } else {
+
             var selectedChild,
             obj1,
             obj2;
 
-            for (var property in swatchChild) {
-                obj1 = JSON.stringify(swatchChild[property]);
+            // recupero l'id del prodotto con le opzioni selezionate
+            for (var property in childsConfig) {
+
+                obj1 = JSON.stringify(childsConfig[property]);
                 obj2 = JSON.stringify(selectedOptions)
 
-                if (obj1 === obj2 ) {
+                if (obj1 === obj2) {
                     var selectedChildId = property;
                     return selectedChildId;
                 }
+
             }
+
         }
 
     }
 
+
     var stockStatusLabelComponent = function (options) {
 
-        console.log(options);
-
-
+        // console.log(options);
 
         if (options.productData.type == 'configurable' ) {
+
             // console.log('configurable');
 
-            swatchChild = options.swatchOptions.index;
-            var childs = options.productData.childs;
+            childsConfig = options.productOptions.index;
+            var childsStatus = options.productData.childs;
 
-            $('.swatch-option').on('click', function () {
+            $('.super-attribute-select').on('change', function () {
 
-                var attributeId = $(this).closest('.swatch-attribute').attr('attribute-id');
-                var optionId = $(this).attr('option-id');
-                selectedOptions[attributeId] = optionId;
+                var str = $(this).attr("name");
+                var re = /super_attribute\[(\d+)\]/g;
+                var matches = re.exec(str);
+                var attributeId = matches[1];
 
-                // recupero il child in base alle opzioni selezionate
-                var selectedChild = _getSelectedChild();
+                if ( $(this).val() == "" ) {
 
-                if (selectedChild ) {
-                    var stock_status = childs[selectedChild];
+                    delete selectedOptions[attributeId];
                     $('#stock_status_label').removeClass();
-                    $('#stock_status_label').addClass(stock_status);
-                    $('#stock_status_label').html(options.labels[stock_status]);
+                    $('#stock_status_label').html("");
+
+                } else {
+
+
+                    var optionId = $(this).val();
+                    selectedOptions[attributeId] = optionId;
+
+                    // recupero il child in base alle opzioni selezionate
+                    var selectedChild = _getSelectedChild();
+
+                    if (selectedChild) {
+                        var stock_status = childsStatus[selectedChild];
+                        $('#stock_status_label').removeClass();
+                        $('#stock_status_label').addClass(stock_status);
+                        $('#stock_status_label').html(options.labels[stock_status]);
+                    }
+
                 }
 
             });
+
         } else if (options.productData.type == 'simple' ) {
+
             // console.log('simple');
 
             var sku = options.productData.sku;
             var stock_status = options.productData.stock_status;
-            $('#stock_status_label').addClass(stock_status);
-            $('#stock_status_label').html(options.labels[stock_status]);
+
+            if (stock_status) {
+
+                $('#stock_status_label').addClass(stock_status);
+                $('#stock_status_label').html(options.labels[stock_status]);
+
+            }
+
         }
 
     }
