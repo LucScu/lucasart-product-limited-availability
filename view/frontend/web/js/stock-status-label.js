@@ -1,5 +1,6 @@
 define([
-    'jquery'
+    'jquery',
+    'Magento_Swatches/js/swatch-renderer'
 ], function ($) {
 
     var selectedOptions = {};
