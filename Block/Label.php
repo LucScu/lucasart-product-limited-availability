@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the StockStatusLabel package.
+ *
+ * (c) Luca Sculco <sculco.luca@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 namespace LucasArt\StockStatusLabel\Block;
 
 class Label extends \Magento\Framework\View\Element\Template
